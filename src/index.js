@@ -27,9 +27,9 @@ function renderExhibit(exhibit){
     
     let exhibitCard = 
     `<h4>Exhibit Name: ${exhibit.name}</h4>
-    <p>Museum Name: ${exhibit.museum.name}</p>
+    <h6>Museum Name: ${exhibit.museum.name}</h6>
     
-    <h5>Artist:</h5>
+    <h6>Artist:</6>
     <ul>
         ${iterateArtists(exhibit.artists)}
     </ul>
@@ -46,6 +46,14 @@ function iterateArtists(artists){
     })
     return returnString
 }
+
+const button = document.getElementById("btn") 
+button.addEventListener("click", handleButton)
+
+function handleButton(){
+    console.log("The button was clicked.")
+}
+
 
 
 
