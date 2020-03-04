@@ -7,6 +7,7 @@ function main(){
     document.addEventListener('DOMContentLoaded', () => {
         console.log('Loaded!')
         getExhibits()
+        getArtists()
     })
 }
 
@@ -50,6 +51,12 @@ function iterateArtists(artists){
     return returnString
 }
 
+function getArtists(){
+    fetch("http://localhost:3000/artists")
+    .then( resp => resp.json() )
+    .then( artistData => renderArtists(artistData))
+}
+
 function handleArtistButton(){
     console.log("Add Artist button clicked")
     const artistForm = document.createElement('form')
@@ -91,17 +98,18 @@ function handleArtistSubmit(){
 }
 
 function renderArtists(artistData){
+    console.log(artistData)
     artistData.forEach( artist => renderArtist(artist))
 }
 
 function renderArtist(artist){
-    let artistCardDiv =document.querySelector(".artist-cards")
+    let artistCardsDiv =document.querySelector(".artist-cards")
 
     let artistCard = 
     `<h4>Artist Name: ${artist.name}</h4>
      <p>Bio: ${artist.bio}</p>
     `
-    artistCardDiv.innerHTML += artistCard
+    artistCardsDiv.innerHTML += artistCard
 }
 
 function handleExhibitButton(){
@@ -157,6 +165,8 @@ function handleSubmit(){
 
     console.log(event.target.children)
 }
+
+
 
 
 main()
