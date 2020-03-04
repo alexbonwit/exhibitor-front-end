@@ -20,13 +20,6 @@ function renderExhibits(exhibitData){
     //loop over exhibit data to render cards
 }
 
-// function renderDogBreed(dogBreedData){
-//     // console.log('asdf')
-
-//     Object.keys(dogBreedData).forEach(dog => {
-//         let dogBreedName = `<li class="doggies">${dog}</li>`
-//         dogList.innerHTML += dogBreedName
-//     })
 
 function renderExhibit(exhibit){
     
@@ -36,23 +29,14 @@ function renderExhibit(exhibit){
     `<h4>Exhibit Name: ${exhibit.name}</h4>
     <p>Museum Name: ${exhibit.museum.name}</p>
     
-    <h3>Artist:</h3>
+    <h5>Artist:</h5>
     <ul>
         ${iterateArtists(exhibit.artists)}
     </ul>
-    `
-    
-    
+    `    
     exhibitCardsDiv.innerHTML += exhibitCard
-
-    //render and append singular exhibit card
-    //include event name, museum, and artists
-    //include creation of Show More button to open modal with full event information
-
-    // <p>${iterateArtists(exhibit.artists)}</p>
 }
 
-// this function might need to be within the scope of renderExhibit
 function iterateArtists(artists){
 //    return artists.map(artist => `<li>${artist.name}</li>`).join("")
     let returnString = ""
