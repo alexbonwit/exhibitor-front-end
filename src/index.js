@@ -3,8 +3,6 @@ function main(){
     document.addEventListener('DOMContentLoaded', () => {
         console.log('Loaded!')
         getExhibits()
-       
-
     })
 }
 
@@ -34,23 +32,35 @@ function renderExhibit(exhibit){
     
     let exhibitCardsDiv = document.querySelector(".exhibit-cards")
     
-    let exhibitCard = `<h4>Exhibit Name: ${exhibit.name}</h4>
+    let exhibitCard = 
+    `<h4>Exhibit Name: ${exhibit.name}</h4>
     <p>Museum Name: ${exhibit.museum.name}</p>
-    <p>Artist Name: ${iterateArtists(exhibit.artists)}</p>`
+    
+    <h3>Artist:</h3>
+    <ul>
+        ${iterateArtists(exhibit.artists)}
+    </ul>
+    `
+    
+    
     exhibitCardsDiv.innerHTML += exhibitCard
 
     //render and append singular exhibit card
     //include event name, museum, and artists
     //include creation of Show More button to open modal with full event information
+
+    // <p>${iterateArtists(exhibit.artists)}</p>
 }
 
 // this function might need to be within the scope of renderExhibit
 function iterateArtists(artists){
-    artists.forEach( artist => {
-       
-        `<p>${artist.name}</p>`
-        
+//    return artists.map(artist => `<li>${artist.name}</li>`).join("")
+    let returnString = ""
+    artists.forEach(artist => {
+       let liTag =  `<li>${artist.name}</li>`
+       returnString += liTag
     })
+    return returnString
 }
 
 
