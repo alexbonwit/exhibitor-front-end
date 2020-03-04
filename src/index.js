@@ -2,6 +2,7 @@ function main(){
 
     document.addEventListener('DOMContentLoaded', () => {
         console.log('Loaded!')
+        loadNav()
         getExhibits()
     })
 }
@@ -33,14 +34,16 @@ function renderExhibit(exhibit){
     let exhibitCardsDiv = document.querySelector(".exhibit-cards")
     
     let exhibitCard = 
-    `<h4>Exhibit Name: ${exhibit.name}</h4>
-    <p>Museum Name: ${exhibit.museum.name}</p>
-    
-    <h3>Artist:</h3>
-    <ul>
-        ${iterateArtists(exhibit.artists)}
-    </ul>
-    `
+        `<div class="card d-flex flex-column">
+            <h4>Exhibit: ${exhibit.name}</h4>
+            <p>Museum: ${exhibit.museum.name}</p>
+            
+            <h5>Artists:</h5>
+            <ul>
+                ${iterateArtists(exhibit.artists)}
+            </ul>
+            <button type="button" class="btn btn-info interstBtn mt-auto" display="position: absolute; right: 0; bottom: 0;">More Info</button>
+        </div>`
     
     
     exhibitCardsDiv.innerHTML += exhibitCard
@@ -63,6 +66,19 @@ function iterateArtists(artists){
     return returnString
 }
 
+function loadNav() {
+    const nav = document.querySelector('.navbar')
+
+    nav.addEventListener('click', e => {
+        if (e.target.innerText === "Exhibits") {
+            getExhibits()
+        } else if (e.target.innerText === "Artists") {
+            getArtists()
+        } else if (e.target.innerText === "Museums") {
+            getMuseums()
+        }
+    })
+}
 
 
 main()
