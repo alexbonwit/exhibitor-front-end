@@ -1,34 +1,67 @@
-const button = document.getElementById("btn") 
+const exhibitButton = document.getElementById("exhibit-btn") 
 const artistButton = document.getElementById("artist-btn")
+const cardsDiv = document.querySelector('.cards-div')
+const formDiv = document.querySelector('.form-div')
+const formButton = document.querySelector('.form-btn')
 //const form = document.getElementById("new-exhibit-form")
 
 function main(){
 
     document.addEventListener('DOMContentLoaded', () => {
         console.log('Loaded!')
-        loadNav()
+        loadNav();
         getExhibits()
-        getArtists()
     })
 }
 
 function getExhibits(){
     //fetch exhibits from database
     //render exhibits in cards(pass json data into new function)
+    clearPage();
+    renderExhibitButton();
     fetch("http://localhost:3000/exhibits")
-    .then( resp => resp.json() )
-    .then( exhibitData => renderExhibits(exhibitData))
+        .then( resp => resp.json() )
+        .then( exhibitData => renderExhibits(exhibitData))
+}
+
+function clearPage(){
+    cardsDiv.innerHTML = '';
+    formDiv.innerHTML = '';
+    formButton.innerHTML = '';
+}
+
+function renderExhibitButton(){
+    const newExhibitButton = `<button type="button" class="btn btn-secondary" id="exhibit-btn">Add Exhibit</button>`;
+    formButton.innerHTML = newExhibitButton;
+    const exhibitButton = document.getElementById("exhibit-btn");
+    exhibitButton.addEventListener("click", handleExhibitButton);
 }
 
 function renderExhibits(exhibitData){
     exhibitData.forEach( exhibit => renderExhibit(exhibit) )
     //loop over exhibit data to render cards
+    addMoreInfoListener()
+}
+
+function addMoreInfoListener(){
+    cardsDiv.addEventListener('click', event => handleMoreInfo(event))
+}
+
+function handleMoreInfo(event){
+    if (event.target.innerText === "More Info"){
+        const eventId = event.target.dataset.id;
+        openEventModal()
+    }
+}
+
+function openEventModal(){
+    
 }
 
 
 function renderExhibit(exhibit){
     
-    let exhibitCardsDiv = document.querySelector(".exhibit-cards")
+    let exhibitCardsDiv = document.querySelector(".cards-div")
     
     let exhibitCard = 
         `<div class="card d-flex flex-column">
@@ -39,7 +72,7 @@ function renderExhibit(exhibit){
             <ul>
                 ${iterateArtists(exhibit.artists)}
             </ul>
-            <button type="button" class="btn btn-info interstBtn mt-auto" display="position: absolute; right: 0; bottom: 0;">More Info</button>
+            <button type="button" class="btn btn-info exhibitBtn mt-auto" data-toggle="modal" data-target="#exhibitModalCenter" data-id=${exhibit.id} display="position: absolute; right: 0; bottom: 0;">More Info</button>
         </div>`
     
     
@@ -61,37 +94,53 @@ function loadNav() {
 
     nav.addEventListener('click', e => {
         if (e.target.innerText === "Exhibits") {
-            getExhibits()
+            console.log('Exhibits')
+            getExhibits();
         } else if (e.target.innerText === "Artists") {
-            getArtists()
-        } else if (e.target.innerText === "Museums") {
-            getMuseums()
+            console.log('Artists!')
+            getArtists();
+        } else if (e.target.innerText == "Museums") {
+            console.log('MUSEUMS!!!')
+            // getMuseums();
         }
     })
 }
 function getArtists(){
+    clearPage();
+    renderArtistButton();
     fetch("http://localhost:3000/artists")
-    .then( resp => resp.json() )
-    .then( artistData => renderArtists(artistData))
+        .then( resp => resp.json() )
+        .then( artistData => renderArtists(artistData))
+}
+
+function renderArtistButton(){
+    const newArtistButton = `<button type="button" class="btn btn-secondary" id="artist-btn">Add Artist</button>`;
+    formButton.innerHTML = newArtistButton;
+    const artistButton = document.getElementById("artist-btn")
+    artistButton.addEventListener("click", handleArtistButton);
 }
 
 function handleArtistButton(){
     console.log("Add Artist button clicked")
-    const artistForm = document.createElement('form')
-    artistForm.id = "new-artist-form"
-    artistForm.addEventListener("submit", handleArtistSubmit)
+    if (formDiv.innerHTML === '') {
+        const artistForm = document.createElement('form')
+        artistForm.id = "new-artist-form"
+        artistForm.addEventListener("submit", handleArtistSubmit)
 
-    const artistFormInputs = `
-        <label for="artist_name">Artist Name:</label>
-        <input type="text" id="artist_name" name="artist_name"><br><br>
+        const artistFormInputs = `
+            <label for="artist_name">Artist Name:</label>
+            <input type="text" id="artist_name" name="artist_name"><br><br>
 
-        <label for="bio">Bio:</label>
-        <input type="text_field" id="bio" name="bio"><br><br> 
+            <label for="bio">Bio:</label>
+            <input type="text_field" id="bio" name="bio"><br><br> 
 
-        <input type="submit" value="Submit">`
+            <input type="submit" value="Submit">`
 
-        artistForm.innerHTML += artistFormInputs
-        document.body.append(artistForm)
+            artistForm.innerHTML += artistFormInputs
+            formDiv.append(artistForm)
+    } else {
+        formDiv.innerHTML = '';
+    }
 }
 
 function handleArtistSubmit(){
@@ -121,7 +170,7 @@ function renderArtists(artistData){
 }
 
 function renderArtist(artist){
-    let artistCardsDiv =document.querySelector(".artist-cards")
+    let artistCardsDiv =document.querySelector(".cards-div")
 
     let artistCard = 
     `<h4>Artist Name: ${artist.name}</h4>
@@ -131,37 +180,51 @@ function renderArtist(artist){
 }
 
 function handleExhibitButton(){
-console.log('Add Exhibit button clicked')
-    const form = document.createElement('form')
-    form.id = "new-exhibit-form"
-    form.addEventListener("submit", handleSubmit)
+    console.log('Add Exhibit button clicked')
+    if (formDiv.innerHTML === ''){
+        const form = document.createElement('form')
+        form.id = "new-exhibit-form"
+        form.addEventListener("submit", handleSubmit)
 
-    const formInputs = `
+        const formInputs = `
+            <br>
+            <div class="form-group">
+                <label for="exhibit_name">Exhibit Name:</label>
+                <input type="text" id="exhibit_name" name="exhibit_name"><br><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text_field" id="description" name="description"><br><br>
+            </div>
 
-        <label for="exhibit_name">Exhibit Name:</label>
-        <input type="text" id="exhibit_name" name="exhibit_name"><br><br>
+            <div class="form-group">
+                <label for="museum_name">Museum Name:</label>
+                <input type="text" id="museum_name" name="museum_name"><br><br>
+            </div>
 
-        
-        <label for="description">Description:</label>
-        <input type="text_field" id="description" name="description"><br><br>
-        
-        <label for="museum_name">Museum Name:</label>
-        <input type="text" id="museum_name" name="museum_name"><br><br>
+            <div class="form-group">
+                <label for="artist_name">Artist Name:</label>
+                <input type="text" id="artist_name" name="artist_name"><br><br>
+            </div
 
-        <label for="artist_name">Artist Name:</label>
-        <input type="text" id="artist_name" name="artist_name"><br><br>
+            <div class="form-group">
+                <select>
+                    <option>Something</option>
+                </select>
+            </div>
+            <br>
+            <br>
 
-        <select>
-            <option>Something</option>
-        </select>
-        
-
-        <input type="submit" value="Submit">`
+            <input type="submit" value="Submit" class="btn btn-secondary">`
+            
     
-   
-      
-    form.innerHTML += formInputs
-    document.body.append(form)
+        
+        form.innerHTML += formInputs
+        formDiv.append(form)
+    } else {
+        formDiv.innerHTML = '';
+    }
 }
 
 function iterateMuseum(museums){
@@ -203,6 +266,5 @@ function handleSubmit(){
 
 
 main()
-button.addEventListener("click", handleExhibitButton)
-artistButton.addEventListener("click", handleArtistButton)
+
 //form.addEventListener("click", ()=>console.log("something was clicked"))
