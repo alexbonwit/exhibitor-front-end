@@ -132,14 +132,29 @@ console.log('Add Exhibit button clicked')
 
         <label for="artist_name">Artist Name:</label>
         <input type="text" id="artist_name" name="artist_name"><br><br>
+
+        <select>
+            <option>Something</option>
+        </select>
         
 
         <input type="submit" value="Submit">`
-
+    
+   
+      
     form.innerHTML += formInputs
     document.body.append(form)
-   
 }
+
+function iterateMuseum(museums){
+    let returnString = ""
+    museums.forEach(museum => {
+        let museumName = `${museum.name}`
+        returnString += museumName
+    })
+    return returnString
+}
+
 
 function handleSubmit(){
     event.preventDefault()
