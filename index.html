@@ -18,32 +18,39 @@
             </div>
         </header>
 
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:rgb(80, 156, 171)">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:rgb(80, 156, 171); margin-bottom: 12px;">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">Exhibits <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="#">Artists</a>
-                    <a class="nav-item nav-link" href="#">Museums</a>
+                    <div class="btn-group" role="group" aria-label="Nav-buttons">
+                        <button type="button" class="btn btn-light">Exhibits</button>
+                        <button type="button" class="btn btn-light">Artists</button>
+                        <button type="button" class="btn btn-light">Museums</button>
+                    </div>
                 </div>
             </div>
         </nav>
 
+        <div class="form-btn" style="margin-left: 33px;"></div>
+        <div class="form-div container" style="margin-left: 33px;"></div>
+
+        <div class="modal-div"></div>
+
         <div class="container-fluid">
-            <div class="exhibit-cards row"></div>
+            <div class="cards-div row"></div>
         </div>
 
         <footer class="footer">
         </footer>
-        <button id="btn">Add Exhibit</button>
-        <button id="artist-btn">Add Artist</button>
+        <!-- <button id="exhibit-btn">Add Exhibit</button>
+        <button id="artist-btn">Add Artist</button> -->
 
-        <div class="exhibit-cards"></div>
+        <!-- <div class="exhibit-cards"></div>
 
-        <div class = "artist-cards"></div>
+        <div class = "artist-cards"></div> -->
 
         <script src="src/index.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -55,7 +62,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-        
         
     </body>
 </html>
