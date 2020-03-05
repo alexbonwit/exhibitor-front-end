@@ -2,6 +2,7 @@ const button = document.getElementById("btn")
 const artistButton = document.getElementById("artist-btn")
 const newArtistForm = document.querySelector("form")
 
+
 //const form = document.getElementById("new-exhibit-form")
 
 function main(){
@@ -60,41 +61,40 @@ function iterateArtists(artists){
 
 function handleExhibitButton(){
     console.log('Add Exhibit button clicked')
-        const form = document.createElement('form')
-        form.id = "new-exhibit-form"
-        form.addEventListener("submit", handleSubmit)
-        const formInputs = `
-    
-            <label for="exhibit_name">Exhibit Name:</label>
-            <input type="text" id="exhibit_name" name="exhibit_name"><br><br>
-    
-            
-            <label for="description">Description:</label>
-            <input type="text_field" id="description" name="description"><br><br>
-            
-            <label for="museum_name">Museum Name:</label>
-            <input type="text" id="museum_name" name="museum_name"><br><br>
-    
-            <label for="artist_name">Artist Name:</label>
-            <input type="text" id="artist_name" name="artist_name"><br><br>
-    
-            <select>
-                <option>${listMuseumsFetch()}</option> "I still need to figure out the chain of events."
 
-            </select>
+    const form = document.createElement('form')
+    form.id = "new-exhibit-form"
+    form.addEventListener("submit", handleExhibitSubmit)
+
     
-            <input type="submit" value="Submit">`
-    
-        form.innerHTML += formInputs
-        document.body.append(form)
+   
+
+    const formInputs = `
+
+        <label for="exhibit_name">Exhibit Name:</label>
+        <input type="text" id="exhibit_name" name="exhibit_name"><br><br>
+
+        
+        <label for="description">Description:</label>
+        <input type="text_field" id="description" name="description"><br><br>
+            
+        <label>Museum </label>
+        <select>${listMuseumsFetch()}</select>
+
+        <label>Artist </label>
+        <select>${listArtistsFetch()}</select>
+
+        <input type="submit" value="Submit">`
+
+    form.innerHTML += formInputs
+    document.body.append(form)
+
+    const museumSelect = document.querySelectorAll("select")[0]
+    museumSelect.addEventListener("change", ()=> console.log(event.target))
     }
 
-// need a funciton that will iterate through museums to put into <select> tag for museum
-function iterateMuseums(museum){
-    console.log(museum)
-}
     
-function handleSubmit(){
+function handleExhibitSubmit(){
     event.preventDefault()
 
     // be aware that the children values can be different if we've changed some styling
@@ -158,6 +158,22 @@ function renderArtist(artist){
      <p>Bio: ${artist.bio}</p>
     `
     artistCardsDiv.innerHTML += artistCard
+}
+
+function listArtistsFetch(){
+    fetch(`http://localhost:3000/artists`)
+    .then( resp => resp.json() )
+    .then( artistInfo => listArtists(artistInfo))
+}
+
+function listArtists(artistInfo){
+    console.log(artistInfo)
+    let select = document.querySelectorAll("select")[1]
+    artistInfo.forEach( artist => {
+        let artistOption = `
+        <option artist_id = ${artist.id}>${artist.name}</option>`
+        select.innerHTML += artistOption
+    })
 }
 
 function handleArtistButton(){
@@ -235,10 +251,10 @@ function listMuseumsFetch(){
 
 function listMuseums(museumInfo){
     console.log(museumInfo)
-    let select = document.querySelector("select")
+    let select = document.querySelectorAll("select")[0]
     museumInfo.forEach( museum =>{
-        let option = `<option>${museum.name}</option>`
-        select.innerHTML += option
+        let MuseumOption = `<option museum_id = ${museum.id}>${museum.name}</option>`
+        select.innerHTML += MuseumOption
     })
 }
 
@@ -248,4 +264,7 @@ function listMuseums(museumInfo){
 main()
 button.addEventListener("click", handleExhibitButton)
 artistButton.addEventListener("click", handleArtistButton)
+
+
+
 //form.addEventListener("click", ()=>console.log("something was clicked"))
