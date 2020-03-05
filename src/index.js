@@ -3,6 +3,7 @@ const artistButton = document.getElementById("artist-btn")
 const cardsDiv = document.querySelector('.cards-div')
 const formDiv = document.querySelector('.form-div')
 const formButton = document.querySelector('.form-btn')
+const modalDiv = document.querySelector('.modal-div')
 //const form = document.getElementById("new-exhibit-form")
 
 function main(){
@@ -40,24 +41,66 @@ function renderExhibitButton(){
 function renderExhibits(exhibitData){
     exhibitData.forEach( exhibit => renderExhibit(exhibit) )
     //loop over exhibit data to render cards
-    addMoreInfoListener()
+    cardsDiv.addEventListener('click', event => {
+        if (event.target.innerText === "More Info"){
+            const eventId = event.target.dataset.id;
+            fetchModalData(eventId)
+        }
+    })
 }
 
-function addMoreInfoListener(){
-    cardsDiv.addEventListener('click', event => handleMoreInfo(event))
+function fetchModalData(eventId){
+    fetch(`http://localhost:3000/exhibits/${eventId}`)
+        .then(resp => resp.json())
+        .then(exhibitData => openEventModal(exhibitData))
 }
 
-function handleMoreInfo(event){
-    if (event.target.innerText === "More Info"){
-        const eventId = event.target.dataset.id;
-        openEventModal()
-    }
-}
+function openEventModal(exhibitData){
+    modalDiv.innerHTML = '';
 
-function openEventModal(){
+    const eventModal = `
+    <div class="modal fade" id="exhibitModalCenter" tabindex="-1" role="dialog" aria-labelledby="exhibitInfo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exhibitTitle">${exhibitData.name}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>${exhibitData.description}</p>
+                    <br>
+                    <p>Runs from ${exhibitData.start_date} to ${exhibitData.end_date}</p>
+                    <p>Admission cost: ${exhibitData.cost}</p>
+                    <br>
+                    <p>${exhibitData.interest_count} people are interested in this exhibit</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" data-id="${exhibitData.id}">I'm interested!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+    modalDiv.innerHTML = eventModal;
     
 }
 
+document.body.addEventListener('click', event => {
+    if (event.target.innerText === "I'm interested!"){
+        const exhibitInterestObj = {
+            id: event.target.dataset.id,
+            
+        }
+        manageInterest(exhibitInterestId);
+    }
+})
+
+function manageInterest(exhibit){
+
+}
 
 function renderExhibit(exhibit){
     
