@@ -1,0 +1,84 @@
+
+
+.jumbotron{
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('src/background1.jpg');
+  background-size: cover;
+}
+
+.exhibit-header {
+  display: flex;
+  justify-content: left;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px 4px #000000;
+  /* background: rgb(31, 31, 31); */
+  background: rgb(27, 158, 219);
+  /* background: radial-gradient(at bottom left, rgba(2,0,36,1) 0%, rgba(79,125,165,1) 90%, rgba(17,23,27,1) 100%); */
+  opacity: .8;
+  height: 8rem;
+  padding: 1rem;
+  /* margin-bottom: 1rem; */
+}
+
+.exhibit-cards {
+    background-color: rgba(221, 221, 221, 0.199);
+}
+
+.card {
+  text-align: left;
+  border: grey solid 1px;
+  color: rgb(0, 0, 0);
+  background: rgb(31, 31, 31);
+  opacity: .8;
+  padding: 1rem;
+  width: 30rem;
+  /* height: 90rem; */
+  display: inline-grid;
+  margin: 1rem 2rem;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.interestBtn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.footer {
+    border-top: 1px solid rgb(31, 31, 31);
+    text-align: right;
+    background: darkgray;
+    padding-bottom: .5rem;
+}
+
+.main-nav {
+    background: rgb(255, 255, 255);
+    padding: .5rem;
+}
+
+.nav-pills .nav-link:not(.active) {
+    background-color: rgba(80, 156, 171, 0.5);
+    color: rgb(77, 77, 77);
+}
+
+.card-container {
+    /* background: rgb(71, 109, 192) */
+    /* background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(79,125,165,1) 54%, rgba(17,23,27,1) 100%); */
+    /* background: rgb(12,11,33);
+    background: radial-gradient(at bottom, rgba(12,11,33,1) 0%, rgba(79,125,165,1) 54%, rgba(17,23,27,1) 100%);     */
+    background: rgb(255, 255, 255);
+    /* background: linear-gradient(0deg, rgb(25, 26, 39) 0%, rgb(67, 85, 124) 100%);    */
+}
+
+.event-title {
+    /* color: rgb(69, 84, 255); */
+    margin: 8px 0;
+    padding: 12px;
+}
+
+.event-info {
+    /* color: rgb(69, 84, 255); */
+    margin: 20px 0;
+    padding: 12px;
+}
