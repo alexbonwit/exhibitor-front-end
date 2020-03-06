@@ -92,7 +92,7 @@ document.body.addEventListener('click', event => {
     if (event.target.innerText === "I'm interested!"){
         const exhibitInterestObj = {
             id: event.target.dataset.id,
-            
+
         }
         manageInterest(exhibitInterestId);
     }
@@ -144,7 +144,7 @@ function loadNav() {
             getArtists();
         } else if (e.target.innerText == "Museums") {
             console.log('MUSEUMS!!!')
-            // getMuseums();
+            getMuseums();
         }
     })
 }
@@ -168,19 +168,24 @@ function handleArtistButton(){
     if (formDiv.innerHTML === '') {
         const artistForm = document.createElement('form')
         artistForm.id = "new-artist-form"
-        artistForm.addEventListener("submit", handleArtistSubmit)
-
+        
         const artistFormInputs = `
+        <br>
+        <div class="form-group">
             <label for="artist_name">Artist Name:</label>
-            <input type="text" id="artist_name" name="artist_name"><br><br>
+            <input type="text" id="artist_name" name="artist_name">
+        </div>
 
+        <div class="form-group">
             <label for="bio">Bio:</label>
-            <input type="text_field" id="bio" name="bio"><br><br> 
+            <input type="text_field" id="bio" name="bio"> 
+        </div>
 
-            <input type="submit" value="Submit">`
-
-            artistForm.innerHTML += artistFormInputs
-            formDiv.append(artistForm)
+        <input type="submit" value="Submit" class="btn btn-secondary">`
+        
+        artistForm.innerHTML += artistFormInputs
+        formDiv.append(artistForm)
+        artistForm.addEventListener("submit", handleArtistSubmit)
     } else {
         formDiv.innerHTML = '';
     }
@@ -188,9 +193,9 @@ function handleArtistButton(){
 
 function handleArtistSubmit(){
     event.preventDefault()
-    console.log("test")
     let artistName = event.target[0].value
     let artistBio = event.target[1].value
+    event.target.reset()
     // create fetch post to artist to add to the artist database
     const postObj = {
         method: "POST",
@@ -204,7 +209,7 @@ function handleArtistSubmit(){
 
     fetch("http://localhost:3000/artists", postObj)
     .then( resp => resp.json() )
-    .then( artistData => renderArtists(artistData) )
+    .then( artistData => renderArtist(artistData) )
 }
 
 function renderArtists(artistData){
@@ -216,20 +221,87 @@ function renderArtist(artist){
     let artistCardsDiv =document.querySelector(".cards-div")
 
     let artistCard = 
-    `<h4>Artist Name: ${artist.name}</h4>
-     <p>Bio: ${artist.bio}</p>
-    `
+        `<div class="card d-flex flex-column">
+            <h4>Artist Name: ${artist.name}</h4>
+            <p>Bio: ${artist.bio}</p>
+        </div>`
+
     artistCardsDiv.innerHTML += artistCard
 }
 
 function handleExhibitButton(){
-    console.log('Add Exhibit button clicked')
+    console.log('Add Exhibit button clicked!!!')
     if (formDiv.innerHTML === ''){
-        const form = document.createElement('form')
-        form.id = "new-exhibit-form"
-        form.addEventListener("submit", handleSubmit)
+        createEventForm()
+        // const form = document.createElement('form')
+        // form.id = "new-exhibit-form"
+        // form.addEventListener("submit", handleSubmit)
 
-        const formInputs = `
+        // const formInputs = `
+        //     <br>
+        //     <div class="form-group">
+        //         <label for="exhibit_name">Exhibit Name:</label>
+        //         <input type="text" id="exhibit_name" name="exhibit_name"><br><br>
+        //     </div>
+            
+        //     <div class="form-group">
+        //         <label for="description">Description:</label>
+        //         <input type="text_area" id="description" name="description"><br><br>
+        //     </div>
+
+        //     <div class="form-group">
+        //         <label for="museum_name">Museum Name:</label>
+        //         <select id="museum_name" name="museum_name">
+        //             ${listMuseums()}
+        //         </select><br><br>
+        //     </div>
+
+        //     <div class="form-group">
+        //         <label for="artist_name">Artist Name:</label>
+        //         <input type="text" id="artist_name" name="artist_name"><br><br>
+        //     </div
+
+        //     <br>
+        //     <br>
+
+        //     <input type="submit" value="Submit" class="btn btn-secondary">`
+            
+    
+        
+        // form.innerHTML = formInputs
+        // formDiv.append(form)
+    } else {
+        formDiv.innerHTML = '';
+    }
+}
+
+function createEventForm(){
+    fetch('http://localhost:3000/exhibits')
+        .then(resp => resp.json())
+        .then(exhibitData => renderForm(exhibitData))
+    }
+    
+function renderForm(exhibits){
+    let museumString = ''
+    exhibits.forEach(exhibit => {
+        let option = `<option value=${exhibit.museum.id}>${exhibit.museum.name}</option>`
+        museumString += option
+    })
+
+    let artistString = ''
+    exhibits.forEach(exhibit => {
+        let artists = exhibit.artists
+        artists.forEach(artist => {
+            let option = `<option value=${artist.id}>${artist.name}</option>`
+        artistString += option
+        })
+        
+    })
+
+    const form = document.createElement('form')
+    form.id = "new-exhibit-form"
+
+    const formInputs = `
             <br>
             <div class="form-group">
                 <label for="exhibit_name">Exhibit Name:</label>
@@ -238,36 +310,47 @@ function handleExhibitButton(){
             
             <div class="form-group">
                 <label for="description">Description:</label>
-                <input type="text_field" id="description" name="description"><br><br>
+                <input type="text_area" id="description" name="description"><br><br>
+            </div>
+
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="text_area" id="start_date" name="start_date"><br><br>
+            </div>
+
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="text_area" id="end_date" name="end_date"><br><br>
+            </div>
+
+            <div class="form-group">
+                <label for="cost">Cost:</label>
+                <input type="text_area" id="cost" name="cost"><br><br>
             </div>
 
             <div class="form-group">
                 <label for="museum_name">Museum Name:</label>
-                <input type="text" id="museum_name" name="museum_name"><br><br>
+                <select id="museum_name" name="museum_name">
+                    ${museumString}
+                </select><br><br>
             </div>
 
             <div class="form-group">
                 <label for="artist_name">Artist Name:</label>
-                <input type="text" id="artist_name" name="artist_name"><br><br>
-            </div
-
-            <div class="form-group">
-                <select>
-                    <option>Something</option>
-                </select>
+                <select id="artist_name" name="artist_name">
+                    ${artistString}
+                </select><br><br>
             </div>
-            <br>
+
             <br>
 
             <input type="submit" value="Submit" class="btn btn-secondary">`
-            
-    
-        
-        form.innerHTML += formInputs
-        formDiv.append(form)
-    } else {
-        formDiv.innerHTML = '';
-    }
+
+
+
+    form.innerHTML = formInputs
+    formDiv.append(form)
+    form.addEventListener('submit', event => handleExhibitSubmit(event))
 }
 
 function iterateMuseum(museums){
@@ -280,32 +363,81 @@ function iterateMuseum(museums){
 }
 
 
-function handleSubmit(){
+function handleExhibitSubmit(event){
     event.preventDefault()
 
     // be aware that the children values can be different if we've changed some styling
-    let exhibitName = event.target[0].value
-    let exhibitDescription = event.target[1].value
-    let museumName = event.target[2].value
-    let artistName = event.target[3].value
+    let newExhibitObj = {
+        name: event.target[0].value,
+        description: event.target[1].value,
+        start_date: event.target[2].value,
+        end_date: event.target[3].value,
+        cost: event.target[4].value,
+        museum_id: parseInt(event.target[5].value),
+        artists: {
+            id: parseInt(event.target[6].value)},
+        interest_count: 0
+    }
+
+    event.target.reset()
+    // let exhibitName = event.target[0].value
+    // let exhibitDescription = event.target[1].value
+    // let museumName = event.target[2].value
+    // let artistName = event.target[3].value
 
     const postObj = {
         method: "POST",
         headers: {'Accept': 'application/json',
         'Content-Type': 'application/json'},
-        body: JSON.stringify({name: exhibitName,
-                             description: exhibitDescription,
-                             museum: museumName,
-                             artists: artistName})}
+        body: JSON.stringify(newExhibitObj)}
 
     fetch('http://localhost:3000/exhibits', postObj)
-    .then( resp => resp.json() )
-    .then( newData => console.log(newData))
+        .then( resp => resp.json() )
+        .then( newExhibit => putExhibit(newExhibit))
 
-    console.log(event.target.children)
+    // console.log(event.target.children)
 }
 
+function putExhibit(exhibit){
+    let exhibitCardsDiv = document.querySelector(".cards-div")
+    let exhibitCard =
+    `<div class="card d-flex flex-column">
+    <h4>Exhibit: ${exhibit.name}</h4>
+    <p>Museum: ${exhibit.museum.name}</p>
+    
+    <h5>Artists:</h5>
+    <ul>
+    ${exhibit.artists}
+    </ul>
+    <button type="button" class="btn btn-info exhibitBtn mt-auto" data-toggle="modal" data-target="#exhibitModalCenter" data-id=${exhibit.id} display="position: absolute; right: 0; bottom: 0;">More Info</button>
+    </div>`
+    
+    debugger
 
+    exhibitCardsDiv.innerHTML += exhibitCard
+}
+
+function getMuseums(){
+    clearPage();
+    fetch('http://localhost:3000/museums')
+        .then(resp => resp.json())
+        .then(museumsData => renderMuseums(museumsData))
+}
+
+function renderMuseums(museumsData){
+    museumsData.forEach(museum => renderMuseum(museum))
+}
+
+function renderMuseum(museum){
+    let museumCardsDiv = document.querySelector(".cards-div")
+
+    let museumCard =
+    `<div class="card d-flex flex-column">
+            <h4>Museum: ${museum.name}</h4>
+            <p>Address: ${museum.address}</p>`
+
+    museumCardsDiv.innerHTML += museumCard
+}
 
 
 main()
