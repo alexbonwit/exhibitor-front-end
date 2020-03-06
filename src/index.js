@@ -314,6 +314,21 @@ function renderForm(exhibits){
             </div>
 
             <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="text_area" id="start_date" name="start_date"><br><br>
+            </div>
+
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="text_area" id="end_date" name="end_date"><br><br>
+            </div>
+
+            <div class="form-group">
+                <label for="cost">Cost:</label>
+                <input type="text_area" id="cost" name="cost"><br><br>
+            </div>
+
+            <div class="form-group">
                 <label for="museum_name">Museum Name:</label>
                 <select id="museum_name" name="museum_name">
                     ${museumString}
@@ -355,10 +370,16 @@ function handleExhibitSubmit(event){
     let newExhibitObj = {
         name: event.target[0].value,
         description: event.target[1].value,
-        museum_id: parseInt(event.target[2].value),
+        start_date: event.target[2].value,
+        end_date: event.target[3].value,
+        cost: event.target[4].value,
+        museum_id: parseInt(event.target[5].value),
         artists: {
-            id: parseInt(event.target[3].value)}
+            id: parseInt(event.target[6].value)},
+        interest_count: 0
     }
+
+    event.target.reset()
     // let exhibitName = event.target[0].value
     // let exhibitDescription = event.target[1].value
     // let museumName = event.target[2].value
@@ -372,9 +393,28 @@ function handleExhibitSubmit(event){
 
     fetch('http://localhost:3000/exhibits', postObj)
         .then( resp => resp.json() )
-        .then( newExhibit => renderExhibit(newExhibit))
+        .then( newExhibit => putExhibit(newExhibit))
 
     // console.log(event.target.children)
+}
+
+function putExhibit(exhibit){
+    let exhibitCardsDiv = document.querySelector(".cards-div")
+    let exhibitCard =
+    `<div class="card d-flex flex-column">
+    <h4>Exhibit: ${exhibit.name}</h4>
+    <p>Museum: ${exhibit.museum.name}</p>
+    
+    <h5>Artists:</h5>
+    <ul>
+    ${exhibit.artists}
+    </ul>
+    <button type="button" class="btn btn-info exhibitBtn mt-auto" data-toggle="modal" data-target="#exhibitModalCenter" data-id=${exhibit.id} display="position: absolute; right: 0; bottom: 0;">More Info</button>
+    </div>`
+    
+    debugger
+
+    exhibitCardsDiv.innerHTML += exhibitCard
 }
 
 function getMuseums(){
