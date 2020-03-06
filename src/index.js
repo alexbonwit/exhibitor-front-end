@@ -90,17 +90,28 @@ function openEventModal(exhibitData){
 
 document.body.addEventListener('click', event => {
     if (event.target.innerText === "I'm interested!"){
-        const exhibitInterestObj = {
-            id: event.target.dataset.id,
-
+        let exhibitId = event.target.dataset.id;
+        
+        let currentInterest = parseInt(event.target.parentElement.previousElementSibling.lastElementChild.innerText);
+        let reqObj = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({interest_count: (currentInterest + 1)})
         }
-        manageInterest(exhibitInterestId);
+        
+        currentInterest = `${currentInterest + 1} people are interested in this exhibit`
+
+        fetch(`http://localhost:3000/exhibits/${exhibitId}`, reqObj)
+            .then(resp => resp.json())
+            .then(data => {
+                let updateArea = event.target.parentElement.previousElementSibling.lastElementChild;
+                updateArea.innerText = currentInterest;
+            })
     }
 })
-
-function manageInterest(exhibit){
-
-}
 
 function renderExhibit(exhibit){
     
