@@ -358,7 +358,6 @@ function renderForm(exhibits){
             <input type="submit" value="Submit" class="btn btn-secondary">`
 
 
-
     form.innerHTML = formInputs
     formDiv.append(form)
     form.addEventListener('submit', event => handleExhibitSubmit(event))
