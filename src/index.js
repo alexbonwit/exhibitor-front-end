@@ -4,7 +4,6 @@ const cardsDiv = document.querySelector('.cards-div')
 const formDiv = document.querySelector('.form-div')
 const formButton = document.querySelector('.form-btn')
 const modalDiv = document.querySelector('.modal-div')
-//const form = document.getElementById("new-exhibit-form")
 
 function main(){
 
@@ -54,6 +53,9 @@ function fetchModalData(eventId){
         .then(resp => resp.json())
         .then(exhibitData => openEventModal(exhibitData))
 }
+
+// Bootstrap modal functionality not working as intended (not updating content to show correct data when child element is clicked)
+// needs to be replaced with alternative UI element.
 
 function openEventModal(exhibitData){
     modalDiv.innerHTML = '';
