@@ -51,42 +51,42 @@ function renderExhibits(exhibitData){
 function fetchModalData(eventId){
     fetch(`http://localhost:3000/exhibits/${eventId}`)
         .then(resp => resp.json())
-        .then(exhibitData => openEventModal(exhibitData))
+        .then(exhibitData => openEventDetail(exhibitData))
 }
 
 // Bootstrap modal functionality not working as intended (not updating content to show correct data when child element is clicked)
 // needs to be replaced with alternative UI element.
 
-function openEventModal(exhibitData){
-    modalDiv.innerHTML = '';
+function openEventDetail(exhibitData){
+    // modalDiv.innerHTML = '';
 
-    const eventModal = `
-    <div class="modal fade" id="exhibitModalCenter" tabindex="-1" role="dialog" aria-labelledby="exhibitInfo" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exhibitTitle">${exhibitData.name}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>${exhibitData.description}</p>
-                    <br>
-                    <p>Runs from ${exhibitData.start_date} to ${exhibitData.end_date}</p>
-                    <p>Admission cost: ${exhibitData.cost}</p>
-                    <br>
-                    <p>${exhibitData.interest_count} people are interested in this exhibit</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info" data-id="${exhibitData.id}">I'm interested!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    `
-    modalDiv.innerHTML = eventModal;
+    // const eventModal = `
+    // <div class="modal fade" id="exhibitModalCenter" tabindex="-1" role="dialog" aria-labelledby="exhibitInfo" aria-hidden="true">
+    //     <div class="modal-dialog modal-dialog-centered" role="document">
+    //         <div class="modal-content">
+    //             <div class="modal-header">
+    //                 <h5 class="modal-title" id="exhibitTitle">${exhibitData.name}</h5>
+    //                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    //                 <span aria-hidden="true">&times;</span>
+    //                 </button>
+    //             </div>
+    //             <div class="modal-body">
+    //                 <p>${exhibitData.description}</p>
+    //                 <br>
+    //                 <p>Runs from ${exhibitData.start_date} to ${exhibitData.end_date}</p>
+    //                 <p>Admission cost: ${exhibitData.cost}</p>
+    //                 <br>
+    //                 <p>${exhibitData.interest_count} people are interested in this exhibit</p>
+    //             </div>
+    //             <div class="modal-footer">
+    //                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    //                 <button type="button" class="btn btn-info" data-id="${exhibitData.id}">I'm interested!</button>
+    //             </div>
+    //         </div>
+    //     </div>
+    // </div>
+    // `
+    // modalDiv.innerHTML = eventModal;
     
 }
 
