@@ -56,6 +56,7 @@ function fetchModalData(eventId){
 
 // Bootstrap modal functionality not working as intended (not updating content to show correct data when child element is clicked)
 // needs to be replaced with alternative UI element.
+// 
 
 function openEventDetail(exhibitData){
     // modalDiv.innerHTML = '';
