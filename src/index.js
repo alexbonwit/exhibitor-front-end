@@ -57,6 +57,7 @@ function fetchModalData(eventId){
 // Bootstrap modal functionality not working as intended (not updating content to show correct data when child element is clicked)
 // needs to be replaced with alternative UI element.
 // Will use a div toggle to show or hide event detail on button click.
+// Div will be empty using conditional unless click event target contains an exhibit ID.
 
 function openEventDetail(exhibitData){
     // modalDiv.innerHTML = '';
