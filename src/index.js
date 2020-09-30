@@ -454,5 +454,3 @@ function renderMuseum(museum){
 
 
 main()
-
-//form.addEventListener("click", ()=>console.log("something was clicked"))
